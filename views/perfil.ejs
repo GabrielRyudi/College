@@ -1,0 +1,250 @@
+<div class='container'>
+    <div class='grid-x menu_container'>
+        <div class='cell medium-1 large-1'>
+            <img class='logo' href='/img/logo.jpg'/>
+        </div>
+        <div class='cell medium-4 large-4'>
+            <div class='pesquisa_container'>
+                <form action='/user/pesquisar' class='pesquisar_input'>
+                    <input type='text' name='nome' id='nome' placeholder='Pesquisar'>
+                    <button type='submit' class='btn_pesquisar'><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+        </div>
+        <div class='cell medium-4 large-4'>
+            <ul class="menu align-right">
+                <li><a href="/user/perfil"><%= logado.name %></a></li>
+                <li id='abre_div'><a >Criar</a></li>
+                <li><a href="/dashboard">Feed</a></li>
+            </ul>
+        </div>
+        <div class='cell medium-2 large-2'>
+            <ul class="menu">
+                <li><a href="#"><i class="fas fa-comments"></i></a></li>
+                <li><a href="/config"><i class="fas fa-cog"></i></a></li>
+                <li><a href="/user/logout"><i class="fas fa-sign-out-alt"></i></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class='grid-x container_wrap'>
+        <div class='cell medium-8 large-8 perfil_container'>
+            <style>
+                .banner{
+                    background: url("/img/banner_perfil.jpeg");
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                }
+            </style>
+            <div class='banner'>
+                <div class='grid-x banner_menu'>
+                    <div class='cell small-6 medium-7 large-7 nome_perfil'>
+                        <p> <%= logado.name %> </p>
+                    </div>
+                    <div class="cell small-2 medium-2 large-2 btn_dots_container_perfil">
+                        <a href='/user/mudarPerfil' class='camera'><i class="fas fa-image"></i> Capa</a>
+                    </div>
+                    <div class='cell small-4 medium-3 large-3 btn_dots_container_perfil'>
+                        <a href='/updPerfil'><i class="fas fa-user-edit"></i> Atualizar perfil</a>
+                    </div>
+                </div>
+            </div>
+            <div class='grid-x opt_painel_perfil'>
+                <div class='cell small-6 medium-6 large-6 btn_opt_perfil perfil_js'><span>Perfil</span></div>
+                <div class='cell small-6 medium-6 large-6 btn_opt_perfil sub_js'><span>Matéria</span></div>
+            </div>
+            <div class='info_perfil_container'>
+                <div class='card_perfil_profile'>
+                    <h1><i class="fas fa-user-circle"></i> Você </h1>
+                    <div class='grid-x informacoes_container_card'>
+                        <div class='cell'>
+                            <span> Nome </span>
+                            <p><%= logado.name %> <%= logado.lastname %></p>
+                        </div>
+                        <div class='cell medium-4 large-4'>
+                            <span> Sexo </span>
+                            <p><i class="fas fa-mars"></i></p>
+                        </div>
+                        <div class='cell medium-4 large-4'>
+                            <span> idade </span>
+                            <p id='idadeUsu'></p>
+                        </div>
+                        <div class='cell'>
+                            <span> E-mail </span>
+                            <p><%=logado.email%></p>
+                        </div>
+                        <div class="cell">
+                            <span> Perfil </span>
+                            <p><%= logado.profile %></p>
+                        </div>
+                        <div class="cell">
+                            <span> Descrição </span>
+                            <p><%= logado.description %></p>
+                        </div>
+                        <div class="cell">
+                            <span> Redes sociais </span>
+                            <ul class='social_list'>
+                                <li><a href='<%= logado.facebook %>'><i class="fab fa-facebook-square"></i></a></li>
+                                <li><a href='<%= logado.instagram %>'><i class="fab fa-instagram"></i></a></li>
+                                <li><a href='<%= logado.linkedin %>'><i class="fab fa-linkedin"></i></a></li>
+                                <li><a href='<%= logado.outro %>'><i class="fas fa-share-alt-square"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="cell">
+                            <p class='redape'>© Copyright 2019 College Todos os Direitos Reservados</p>
+                        </div>    
+                    </div>
+                </div>
+                <div class='card_perfil_descri'>
+                    <%if(typeof post != 'undefined' || typeof post != [] || typeof post != ''){ %>
+                        <% post.forEach(function(posts){ %>
+                            <div class='card_post_perfil'>
+                                <div class='grid-x'>
+                                    <div class='grid-x content_container'>
+                                        <div class='cell medium-6 large-6'>
+                                            <a href='/user/perfil/<%=logado._id%>'><%=posts.author%></a>
+                                        </div>
+                                        <div class='cell medium-5 large-5'>
+                                            <p class='data_pa' id='<%=posts._id%>'></p>    
+                                        </div>
+                                        <div class='cell medium-1 large-1'>
+                                            <a href='/post/updPost/<%=posts._id%>'><div class='one btn_opt_pa_perfil'><i class="fas fa-ellipsis-v"></i></div></a>
+                                        </div>
+                                        <div class='cell medium-12 large-12'>
+                                            <p class='titulo-pa'><%=posts.title%></p>
+                                        </div>
+                                        <div class='cell medium-12 large-12'>
+                                            <p class='content_pa'> <%= posts.content %> </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }); %>
+                    <% }; %>
+                </div>
+            </div>
+            <div class='sub_holder' style='display:none;'>
+                <div class='grid-x grid-margin-x'>
+                    <%if(typeof interest != 'undefined' || typeof interest != [] || typeof interest != ''){ %>
+                        <% interest.forEach(function(interests){ %>
+                            <div class='cell medium-2 large-2 sub_card grid-y'>
+                                <a href='/subject/subsPost/<%=interests.subject%>'>
+                                    <div class='cell medium-8 large-8' style='padding:10px;'>
+                                        <img class='sub_img' src='/img/book.png'/>
+                                    </div>
+                                    <div class='cell medium-4 large-4 cell_display'>
+                                        <p> <%= interests.subName %> </p>
+                                    </div>
+                                </a>
+                            </div>
+                        <% }); %>
+                    <% }; %>
+                </div>
+            </div>
+        </div>
+        <div class='cell medium-2 large-2'>
+            <p> Espaço destinado a atualizações futuras </p>        
+        </div>
+        <div class='cell medium-2 large-2 amigos_container'>
+            <div class='amigos_list_container'>
+                <ul>
+                    <li><a>
+                        <div class='friend_tile'>
+                            <p> Jung Hein </p>
+                        </div>
+                    </a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div> 
+<div class='painel_wraper' id='painelPostagem'>
+    <div class='painel_holder'>
+        <div class='post_container'>
+            <div class='top_bar_create'>
+                <p> Faça sua postagem! </p>
+            </div>
+            <form action='/post/addPost' method='post'>
+                <div class='grid-x padding15'>
+                    <input type='hidden' name='author' id='author' value='<%= logado.name %>'>
+                    <input type='hidden' name='authorId' id='authorId' value='<%= logado._id %>'>
+                    <input type='hidden' name='date' id='date' class='datamark'>
+                    <div class='cell'>
+                        <label for='title'> Título </label>
+                        <input type='text' name='title' id='title' placeholde='titulo'>
+                    </div>
+                    <div class='cell'>
+                        <label for='subject'> Matéria </label>
+                        <select name='subject' id='subject'>
+                            <%if(typeof subject != 'undefined' || typeof subject != [] || typeof subject != ''){ %>
+                                <% subject.forEach(function(subjects){ %>
+                                    <option value='<%=subjects.name%>'> <%=subjects.name%> </option>
+                                <% }); %>
+                            <% }; %>
+                        </select>
+                    </div>
+                    <div class='cell'>
+                        <label for='content'> Conteúdo </label>
+                        <textarea name='content' id='content' cols="5" rows="5" style="resize: none"></textarea>
+                    </div>
+                    <div class='cell'>
+                        <button class='btn_post one_quarter color_gn' type='submit'> Postar ! </button>
+                        <button type='button' class='btn_post color_rd one_quarter ' onclick='post_div();'>Cancelar</button>
+                    </div>
+                </div>
+            </form>
+        </div>    
+    </div>
+</div>
+<script>
+
+function post_div(){
+    $('#painelPostagem').toggle("fade", 1000);
+};
+
+$('#abre_div').click(function(){
+    post_div();
+});
+
+$('.perfil_js').on('click', function(){
+    $('.info_perfil_container').css('display', 'flex');
+    $('.posts_perfil').css('display', 'none');
+    $('.sub_holder').css('display', 'none');
+});
+
+$('.post_js').on('click', function(){
+    $('.info_perfil_container').css('display', 'none');    
+    $('.posts_perfil').css('display', 'flex');
+    $('.sub_holder').css('display', 'none');
+});
+
+$('.sub_js').on('click', function(){
+    $('.info_perfil_container').css('display', 'none');    
+    $('.posts_perfil').css('display', 'none');
+    $('.sub_holder').css('display', 'flex');
+});
+
+var d = new Date('<%=logado.age%>');
+var year = d.getFullYear();
+var o = new Date();
+var ano = o.getFullYear();
+var idade = parseInt(ano) - parseInt(year);
+$('#idadeUsu').text(idade);
+
+$('.btn_menu_perfil').on('click', function(){
+    $('.menu_opt_update').toggle('blind');
+});
+
+var data = new Date();
+    "<%if(typeof post != 'undefined' || typeof post != [] || typeof post != ''){ %>"
+        "<% post.forEach(function(posts){ %>"
+            var id ="<%=posts._id%>";
+            var d = new Date('<%=posts.date%>');
+            var day = d.getDate()+1;
+            var month = d.getMonth()+1;
+            var dia = ((''+day).length<2 ? '0' : '') + day + '/' + ((''+month).length<2 ? '0' : '') + month + '/' + d.getFullYear();
+            $('#'+id).text(dia);
+        "<% }); %>"
+    "<% }; %>"
+
+</script>

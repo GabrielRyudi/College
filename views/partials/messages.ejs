@@ -1,0 +1,29 @@
+<% if(typeof errors != 'undefined') { %>
+    <% errors.forEach(function(error){ %>
+        <div class="callout alert" data-closable>
+            <h5>Erro!</h5>
+            <p class="msg_erro"><%= error.msg %></p>
+            <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    <% }); %>
+<% } %>
+
+<% if(success_msg != ''){ %>
+    <div class="callout success" data-closable="slide-out-right">
+        <h5>Sucesso</h5>
+        <p class="error" style="color: green;"><%= success_msg %></p>
+        <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+<% } %>
+
+<% if(error_msg != ''){ %>
+    <p class="error"><%= error_msg %></p>
+<% } %>
+
+<% if(error != ''){ %>
+    <p class="error"><%= error %></p>
+<% } %>

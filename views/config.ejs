@@ -1,0 +1,455 @@
+<div class='container'>
+    <div class='grid-x menu_container'>
+        <div class='cell medium-1 large-1'>
+            <img class='logo' href='/img/logo.jpg'/>
+        </div>
+        <div class='cell medium-4 large-4'>
+            <div class='pesquisa_container'>
+                <form action='/user/pesquisar' class='pesquisar_input'>
+                    <input type='text' name='nome' id='nome' placeholder='Pesquisar'>
+                    <button type='submit' class='btn_pesquisar'><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+        </div>
+        <div class='cell medium-4 large-4'>
+            <ul class="menu align-right">
+                <li><a href="/user/perfil"><%= logado.name %></a></li>
+                <li id='abre_div'><a >Criar</a></li>
+                <li><a href="/dashboard">Feed</a></li>
+            </ul>
+        </div>
+        <div class='cell medium-2 large-2'>
+            <ul class="menu">
+                <li><a href="#"><i class="fas fa-comments"></i></a></li>
+                <li><a href="/config"><i class="fas fa-cog"></i></a></li>
+                <li><a href="/user/logout"><i class="fas fa-sign-out-alt"></i></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class='grid-x container_wrap'>
+        <div class="cell wraper config_container">
+            <div class="grid-container">
+                <div class="grid-x">
+                    <div class="cell medium-2">
+                        <ul class="vertical tabs tabs_menu_container" data-tabs id="example-tabs">
+                            <li class="tabs-title is-active"><a href="#panel1v" aria-selected="true">Geral</a></li>
+                            <li class="tabs-title"><a href="#panel2v">Privacidade e Segurança</a></li>
+                            <li class="tabs-title"><a href="#panel3v">Idioma e região</a></li>
+                            <li class="tabs-title"><a href="#panel4v">Bloqueio</a></li>
+                            <li class="tabs-title"><a href="#panel5v">Dê suas opniões</a></li>
+                        </ul>
+                    </div>
+                    <div class="cell medium-10">
+                        <div class="tabs-content" data-tabs-content="example-tabs">
+                            <div class="tabs-panel is-active" id="panel1v">
+                                <p>Configurações gerais</p>
+                                <div class='divisoria'>
+                                    <div class='grid-x'>
+                                        <div class="cell medium-6 large-6">
+                                            <p> Identifique-se para postar notícias, modificar o calendário e publicar no mural </p>
+                                        </div>
+                                        <div class="cell medium-6 large-6">
+                                            <a onclick='abre_config("ta1");'> Sem identificação <i class="fas fa-pencil-alt"></i></a>
+                                            <div class='input_configs' id='ta1'>
+                                                <p class='text_helper'> Indique um meio em que possamos entrar em contato com você! </p>
+                                                <form action='/identificação' method='post'>
+                                                    <input type='hidden' name='name' id='name' value='<%=logado.name%>'>
+                                                    <input type='text' name='identification' id='identification'>
+                                                    <button type='submit'> Enviar </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='divisoria'>
+                                    <div class='grid-x'>
+                                        <div class="cell medium-6 large-6">
+                                            <p> Quais pessoas podem vizualizar seus amigos? </p>
+                                        </div>
+                                        <div class="cell medium-6 large-6">
+                                            <a onclick='abre_config("ta2");'> Apenas amigos <i class="fas fa-pencil-alt"></i></a>
+                                            <div class='input_configs' id='ta2'>
+                                                <p class='text_helper'> Suas lista de amigos será vizualizada por? </p>
+                                                <form action='/vizamz' method='post'>
+                                                    <input type='hidden' name='id' id='id' value='<%=logado._id%>'>
+                                                    <select name='opt' id='opt_1'>
+                                                        <option value='Todos'> Todos </option>
+                                                        <option value='Amigos'> Amigos </option>
+                                                        <option value='Ninguém'> Ninguém </option>
+                                                    </select>
+                                                    <button type='submit'> Enviar </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='divisoria'>
+                                    <div class='grid-x'>
+                                        <div class="cell medium-6 large-6">
+                                            <p> Quais pessoas podem vizualizar suas redes sociais? </p>
+                                        </div>
+                                        <div class="cell medium-6 large-6">
+                                            <a onclick='abre_config("ta3");'> Apenas amigos <i class="fas fa-pencil-alt"></i></a>
+                                            <div class='input_configs' id='ta3'>
+                                                <p class='text_helper'> Suas redes sociais será vizualizada por? </p>
+                                                <form action='/viznet' method='post'>
+                                                    <input type='hidden' name='id' id='id' value='<%=logado._id%>'>
+                                                    <select name='opt' id='opt_1'>
+                                                        <option value='Todos'> Todos </option>
+                                                        <option value='Amigos'> Amigos </option>
+                                                        <option value='Ninguém'> Ninguém </option>
+                                                    </select>
+                                                    <button type='submit'> Enviar </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='divisoria'>
+                                    <div class='grid-x'>
+                                        <div class="cell medium-6 large-6">
+                                            <p> Habilitar o registro de atividades? </p>
+                                        </div>
+                                        <div class="cell medium-6 large-6">
+                                            <a> Desabilitado <i class="fas fa-pencil-alt"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='divisoria'>
+                                    <div class='grid-x'>
+                                        <div class="cell medium-6 large-6">
+                                            <p> E-mail secundário </p>
+                                        </div>
+                                        <div class="cell medium-6 large-6">
+                                            <a onclick='abre_config("ta4");'> Nenhum <i class="fas fa-pencil-alt"></i></a>
+                                            <div class='input_configs' id='ta4'>
+                                                <p class='text_helper'> Indique um e-mail alternativo para que possamos entrar em contato caso necessário! </p>
+                                                <form action='/email' method='post'>
+                                                    <input type='hidden' name='id' id='id' value='<%=logado._id%>'>
+                                                    <input type='email' name='emailSec' id='emailSec'>
+                                                    <button type='submit'> Enviar </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tabs-panel" id="panel2v">
+                                <p> Privacidade e Segurança </p>
+                                <div class='divisoria'>
+                                    <div class='grid-x'>
+                                        <div class="cell medium-6 large-6">
+                                            <p> Pessoas que podem visualizar suas informações </p>
+                                        </div>
+                                        <div class="cell medium-6 large-6">
+                                            <a onclick='abre_config("ta5");'> Todas <i class="fas fa-pencil-alt"></i></a>
+                                            <div class='input_configs' id='ta5'>
+                                                <p class='text_helper'> Suas lista de amigos será vizualizada por? </p>
+                                                <form action='/vizinf' method='post'>
+                                                    <input type='hidden' name='id' id='id' value='<%=logado._id%>'>
+                                                    <select name='opt' id='opt_1'>
+                                                        <option value='Todos'> Todos </option>
+                                                        <option value='Amigos'> Amigos </option>
+                                                        <option value='Ninguém'> Ninguém </option>
+                                                    </select>
+                                                    <button type='submit'> Enviar </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='divisoria'>
+                                    <div class='grid-x'>
+                                        <div class="cell medium-6 large-6">
+                                            <p> Pessoas que podem acessar a black board de suas publicações </p>
+                                        </div>
+                                        <div class="cell medium-6 large-6">
+                                            <a onclick='abre_config("ta6");'> Todas <i class="fas fa-pencil-alt"></i></a>
+                                            <div class='input_configs' id='ta6'>
+                                                <p class='text_helper'> Pessoas com acesso as suas black boards </p>
+                                                <form action='/vizblb' method='post'>
+                                                    <input type='hidden' name='id' id='id' value='<%=logado._id%>'>
+                                                    <select name='opt' id='opt_1'>
+                                                        <option value='Todos'> Todos </option>
+                                                        <option value='Amigos'> Amigos </option>
+                                                        <option value='Ninguém'> Ninguém </option>
+                                                    </select>
+                                                    <button type='submit'> Enviar </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='divisoria'>
+                                    <div class='grid-x'>
+                                        <div class="cell medium-6 large-6">
+                                            <p> Pessoas que podem vizualizar os anexos de suas publicações </p>
+                                        </div>
+                                        <div class="cell medium-6 large-6">
+                                            <a onclick='abre_config("ta7");'> Todas <i class="fas fa-pencil-alt"></i></a>
+                                            <div class='input_configs' id='ta7'>
+                                                <p class='text_helper'> Seus anexos podem ser vizualizados por? </p>
+                                                <form action='/vizanx' method='post'>
+                                                    <input type='hidden' name='id' id='id' value='<%=logado._id%>'>
+                                                    <select name='opt' id='opt_1'>
+                                                        <option value='Todos'> Todos </option>
+                                                        <option value='Amigos'> Amigos </option>
+                                                        <option value='Ninguém'> Ninguém </option>
+                                                    </select>
+                                                    <button type='submit'> Enviar </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='divisoria'>
+                                    <div class='grid-x'>
+                                        <div class="cell medium-6 large-6">
+                                            <p> Pessoas que podem marcar você </p>
+                                        </div>
+                                        <div class="cell medium-6 large-6">
+                                            <a onclick='abre_config("ta8");'> Todas <i class="fas fa-pencil-alt"></i></a>
+                                            <div class='input_configs' id='ta8'>
+                                                <p class='text_helper'> Quem pode te marcar </p>
+                                                <form action='/vizmar' method='post'>
+                                                    <input type='hidden' name='id' id='id' value='<%=logado._id%>'>
+                                                    <select name='opt' id='opt_1'>
+                                                        <option value='Todos'> Todos </option>
+                                                        <option value='Amigos'> Amigos </option>
+                                                        <option value='Ninguém'> Ninguém </option>
+                                                    </select>
+                                                    <button type='submit'> Enviar </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='divisoria'>
+                                    <div class='grid-x'>
+                                        <div class="cell medium-6 large-6">
+                                            <p> Herdeiros do perfil em caso de morte </p>
+                                        </div>
+                                        <div class="cell medium-6 large-6">
+                                            <a onclick='abre_config("ta9");'> Nenhum <i class="fas fa-pencil-alt"></i></a>
+                                            <div class='input_configs' id='ta9'>
+                                                <p class='text_helper'> Adicione um ou mais email que podem acessar seu perfil em caso de morte </p>
+                                                <form action='/emailHerd' method='post'>
+                                                    <input type='hidden' name='id' id='id' value='<%=logado._id%>'>
+                                                    <input type='email' name='emailHerd' id='emailHerd'>
+                                                    <button type='submit'> Enviar </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='divisoria'>
+                                    <div class='grid-x'>
+                                        <div class="cell medium-6 large-6">
+                                            <p> Receber aviso de login em maquinas diferentes </p>
+                                        </div>
+                                        <div class="cell medium-6 large-6">
+                                            <a> Sim <i class="fas fa-pencil-alt"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='divisoria'>
+                                    <div class='grid-x'>
+                                        <div class="cell medium-6 large-6">
+                                            <p> Segurança extra para paginas com informações pessoais </p>
+                                        </div>
+                                        <div class="cell medium-6 large-6">
+                                            <a> Não <i class="fas fa-pencil-alt"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='divisoria'>
+                                    <div class='grid-x'>
+                                        <div class="cell medium-6 large-6">
+                                            <p> Desconectar todos os dispositivos </p>
+                                        </div>
+                                        <div class="cell medium-6 large-6">
+                                            <a onclick='abre_config("ta10");'> Todo mês <i class="fas fa-pencil-alt"></i></a>
+                                            <div class='input_configs' id='ta10'>
+                                                <p class='text_helper'> Com qual frequência os seus dispositivos devem ser desconectados da sua conta? </p>
+                                                <form action='/desctDisp' method='post'>
+                                                    <input type='hidden' name='id' id='id' value='<%=logado._id%>'>
+                                                    <select name='opt' id='opt_1'>
+                                                        <option value='Nunca'> Nunca </option>
+                                                        <option value='Mensalmente'> Todo mês </option>
+                                                        <option value='Semanalmente'> Toda semana </option>
+                                                        <option value='Anualmente'> Todo ano </option>
+                                                    </select>
+                                                    <button type='submit'> Enviar </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tabs-panel" id="panel3v">
+                                <p> Idioma e região </p>
+                                <div class='divisoria'>
+                                    <div class='grid-x'>
+                                        <div class="cell medium-6 large-6">
+                                            <p> Idioma do College </p>
+                                        </div>
+                                        <div class="cell medium-6 large-6">
+                                            <a onclick='abre_config("ta11");'> Português (BR) <i class="fas fa-pencil-alt"></i></a>
+                                            <div class='input_configs' id='ta11'>
+                                                <p class='text_helper'> Escolha a linguagem padrão do seu sistema </p>
+                                                <form action='/desctDisp' method='post'>
+                                                    <input type='hidden' name='id' id='id' value='<%=logado._id%>'>
+                                                    <select name='language' id='language'></select>    
+                                                    <button type='submit'> Enviar </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='divisoria'>
+                                    <div class='grid-x'>
+                                        <div class="cell medium-6 large-6">
+                                            <p> Idioma das postagens </p>
+                                        </div>
+                                        <div class="cell medium-6 large-6">
+                                            <a onclick='abre_config("ta12");'> Português (BR) <i class="fas fa-pencil-alt"></i></a>
+                                            <div class='input_configs' id='ta12'>
+                                                <p class='text_helper'> Escolha a linguagem padrão do seu sistema </p>
+                                                <form action='/desctDisp' method='post'>
+                                                    <input type='hidden' name='id' id='id' value='<%=logado._id%>'>
+                                                    <select name='languagePost' id='language_post'></select>    
+                                                    <button type='submit'> Enviar </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='divisoria'>
+                                    <div class='grid-x'>
+                                        <div class="cell medium-6 large-6">
+                                            <p> Habilitar google tradutor nas postagens em outras linguas </p>
+                                        </div>
+                                        <div class="cell medium-6 large-6">
+                                            <a> Não <i class="fas fa-pencil-alt"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tabs-panel" id="panel4v">
+                                <p> Bloquear conta </p>
+                                <div class='divisoria'>
+                                    <div class='grid-x'>
+                                        <div class="cell medium-6 large-6">
+                                            <p> Deseja encerrar esta conta? </p>
+                                        </div>
+                                        <div class="cell medium-6 large-6">
+                                            <a onclick='abre_config("ta13");'> Opções <i class="fas fa-pencil-alt"></i></a>
+                                            <div class='input_configs' id='ta13'>
+                                                <p class='text_helper'> Porque deseja encerrar sua conta? </p>
+                                                <form action='/user/endacc' method='post'>
+                                                    <input type='hidden' name='id' id='id' value='<%=logado._id%>'>
+                                                    <textarea name="why" id="why" cols="30" rows="10"></textarea>
+                                                    <button type='submit'> Enviar </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tabs-panel" id="panel5v">
+                                <p> Opniões </p>
+                                <div class='divisoria'>
+                                    <div class='grid-x'>
+                                        <div class="cell medium-6 large-6">
+                                            <p> Nos dê algum feedback! </p>
+                                        </div>
+                                        <div class="cell medium-6 large-6">
+                                            <a onclick='abre_config("ta14");'> Escrever <i class="fas fa-pencil-alt"></i></a>
+                                            <div class='input_configs' id='ta14'>
+                                                <p class='text_helper'> Possui alguma sugestão? Reclamação? Fale conosco, não se acanhe, faça sua critica
+                                                ou observação para melhorar o College! </p>
+                                                <form action='/faq' method='post'>
+                                                    <input type='hidden' name='id' id='id' value='<%=logado._id%>'>
+                                                    <textarea name="faq" id="faq" cols="30" rows="10"></textarea>
+                                                    <button type='submit'> Enviar </button>
+                                                </form>
+                                                <p class='text_helper'> Você encontrou algum usuário suspeito, mal intencionado ou 
+                                                realizando cobranças e coisas do tipo? Denuncie o perfil aqui!   
+                                                </p>
+                                                <form action='/denuncia' method='post'>
+                                                    <input type='hidden' name='id' id='id' value='<%=logado._id%>'>
+                                                    <textarea name="faq" id="faq" cols="30" rows="10"></textarea>
+                                                    <button type='submit'> Enviar </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class='painel_wraper' id='painelPostagem'>
+    <div class='painel_holder'>
+        <div class='post_container'>
+            <div class='top_bar_create'>
+                <p> Faça sua postagem! </p>
+            </div>
+            <form action='/post/addPost' method='post'>
+                <div class='grid-x padding15'>
+                    <input type='hidden' name='author' id='author' value='<%= logado.name %>'>
+                    <input type='hidden' name='authorId' id='authorId' value='<%= logado._id %>'>
+                    <input type='hidden' name='date' id='date' class='datamark'>
+                    <div class='cell'>
+                        <label for='title'> Título </label>
+                        <input type='text' name='title' id='title' placeholde='titulo'>
+                    </div>
+                    <div class='cell'>
+                        <label for='subject'> Matéria </label>
+                        <select name='subject' id='subject'>
+                            <%if(typeof subject != 'undefined' || typeof subject != [] || typeof subject != ''){ %>
+                                <% subject.forEach(function(subjects){ %>
+                                    <option value='<%=subjects.name%>'> <%=subjects.name%> </option>
+                                <% }); %>
+                            <% }; %>
+                        </select>
+                    </div>
+                    <div class='cell'>
+                        <label for='content'> Conteúdo </label>
+                        <textarea name='content' id='content' cols="5" rows="5" style="resize: none"></textarea>
+                    </div>
+                    <div class='cell'>
+                        <button class='btn_post one_quarter color_gn' type='submit'> Postar ! </button>
+                        <button type='button' class='btn_post color_rd one_quarter ' onclick='post_div();'>Cancelar</button>
+                    </div>
+                </div>
+            </form>
+        </div>    
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="/js/jquery-ui.js"></script>
+<script src="/js/all.min.js"></script>
+<script src="/js/what-input.js"></script>
+<script src="/js/foundation.js"></script>
+<script>
+
+    $(document).foundation();
+
+    function post_div(){
+        $('#painelPostagem').toggle("fade", 1000);
+    }
+    $('#abre_div').click(function(){
+        console.log('há');
+        post_div();
+    });
+
+    function abre_config(id){
+        $('#'+id).toggle('blind',500);
+    }
+
+</script>

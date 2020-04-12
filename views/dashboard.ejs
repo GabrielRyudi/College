@@ -1,0 +1,241 @@
+<div class='container'>
+    <div class='grid-x menu_container'>
+        <div class='cell medium-1 large-1'>
+            <img class='logo' href='/img/logo.jpg'/>
+        </div>
+        <div class='cell medium-4 large-4'>
+            <div class='pesquisa_container'>
+                <form action='/user/pesquisar' class='pesquisar_input'>
+                    <input type='text' name='nome' id='nome' placeholder='Pesquisar'>
+                    <button type='submit' class='btn_pesquisar'><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+        </div>
+        <div class='cell medium-4 large-4'>
+            <ul class="menu align-right">
+                <li><a href="/user/perfil"><%= logado.name %></a></li>
+                <li id='abre_div'><a >Criar</a></li>
+                <li><a href="#">Feed</a></li>
+            </ul>
+        </div>
+        <div class='cell medium-2 large-2'>
+            <ul class="menu">
+                <li><a href="#"><i class="fas fa-comments"></i></a></li>
+                <li><a href="/config"><i class="fas fa-cog"></i></a></li>
+                <li><a href="/user/logout"><i class="fas fa-sign-out-alt"></i></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class='grid-x container_wrap'>
+        <div class='cell small-2 medium-2 large-2 side_bar'>
+            <ul class='side_menu'>
+                <li><a>Grupos</a></li>
+                <li><a href='/subject/listSub'>Matérias</a></li>
+                <li><a>Caléndario</a></li>
+                <li><a>Notícias</a></li>
+                <li><a>Amizades</a></li>
+            </ul>
+            <p class='side_bar_divide'> Minhas matérias </p>
+            <div class='side_bar_materia'>
+                <ul class='side_menu'>
+                    <%if(typeof interest != 'undefined' || typeof interest != [] || typeof interest != ''){ %>
+                        <% interest.forEach(function(interests){ %>
+                            <li><a href='/subject/subsPost/<%=interests.subject%>'><%=interests.subName%></a></li>
+                        <% }); %>
+                    <% }; %>
+                </ul>
+            </div>
+            <p class='side_bar_divide'> College </p> 
+            <ul class='side_menu_opt'>
+                <li><a>Sobre</a></li>
+                <li><a>Privacidade</a></li>
+                <li><a>Regras</a></li>
+                <li><a>Perguntas</a></li>
+                <li><a href='/versioning'>Versão</a></li>
+            </ul>           
+            <p class='rodape'> © Copyright 2019 College Todos os Direitos Reservados</p>
+        </div>
+        <div class='cell small-6 medium-6 large-6 main_container'>
+            <%if(typeof post != 'undefined' || typeof post != [] || typeof post != ''){ %>
+                <% post.forEach(function(posts){ %>
+                    <div class='card_post'>
+                        <div class='grid-x'>
+                            <div class='grid-x content_container'>
+                                <div class='cell medium-6 large-6'>
+                                    <a href='/user/perfil/<%=posts.authorId%>'><%=posts.author%></a>
+                                </div>
+                                <div class='cell medium-6 large-6'>
+                                    <p class='data_pa' id='<%=posts._id%>tt'></p>
+                                </div>
+                                <div class='cell medium-12 large-12'>
+                                    <p class='titulo-pa'><%=posts.title%></p>
+                                </div>
+                                <div class='cell medium-12 large-12'>
+                                    <p class='content_pa'> <%= posts.content %> </p>
+                                </div>
+                            </div>
+                            <div class='cell medium-6 large-6 btn_opt_pa'>
+                                <a href='#' onclick='expande("<%= posts._id%>");'>
+                                    <div class='one'>Comentar</div>
+                                </a>
+                            </div>
+                            <div class='cell medium-6 large-6 btn_opt_pa'>
+                                <a href='#'>
+                                    <div class='one'>Black Board</div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class='grid-x comment_container' id='<%= posts._id %>'>
+                            <form action='/comment/comentar' method='post' class='form_coment'>
+                                <input type='hidden' name='idCom' id='idCom' value='<%= posts._id %>'>
+                                <input type='text' name='comment' id='comment'>
+                                <button type='submit'> Enviar </button>
+                            </form>
+                            <ul class='comment_ul'>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                <% }); %>
+            <% }; %>
+        </div>
+        <div class='cell small-2 medium-2 large-2'>
+            <p> Espaço vazio no momento, estamos trabalhando para ocupa-lo</p>
+        </div>
+        <div class='cell small-2 medium-2 large-2'>
+            <p> Espaço destinado a funções futuras</p>
+        </div>
+    </div>
+</div>
+<div class='painel_wraper' id='painelComent'>
+    <div class='painel_holder'>
+        <div class='grid-x post_holder'>
+            <div class='cell'>
+                <button onclick="fecharMais();" class='btn_fecha_post_holder'>X</button>
+            </div>
+            <div class='cell medium-5 large-5 poste'>
+                <p class='poste_holder'> 
+
+                </p>
+            </div>
+            <div class='cell medium-7 large-7 comentarios'>
+                <div class='comment_ul_holder_wrap'>
+                    <ul class='comment_ul_holder'>
+                    </ul>
+                </div>
+                <form action='/comment/comentar' method='post' class='form_coment_post'>
+                    <input type='hidden' name='idCom' id='idCom'>
+                    <input type='text' name='comment' id='comment'>
+                    <button type='submit'> Enviar </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div> 
+<div class='painel_wraper' id='painelPostagem'>
+    <div class='painel_holder'>
+        <div class='post_container'>
+            <div class='top_bar_create'>
+                <p> Faça sua postagem! </p>
+            </div>
+            <form action='/post/addPost' method='post'>
+                <div class='grid-x padding15'>
+                    <input type='hidden' name='author' id='author' value='<%= logado.name %>'>
+                    <input type='hidden' name='authorId' id='authorId' value='<%= logado._id %>'>
+                    <input type='hidden' name='date' id='date' class='datamark'>
+                    <div class='cell'>
+                        <label for='title'> Título </label>
+                        <input type='text' name='title' id='title' placeholde='titulo'>
+                    </div>
+                    <div class='cell'>
+                        <label for='subject'> Matéria </label>
+                        <select name='subject' id='subject'>
+                            <%if(typeof subject != 'undefined' || typeof subject != [] || typeof subject != ''){ %>
+                                <% subject.forEach(function(subjects){ %>
+                                    <option value='<%=subjects.name%>'> <%=subjects.name%> </option>
+                                <% }); %>
+                            <% }; %>
+                        </select>
+                    </div>
+                    <div class='cell'>
+                        <label for='content'> Conteúdo </label>
+                        <textarea name='content' id='content' cols="5" rows="5" style="resize: none"></textarea>
+                    </div>
+                    <div class='cell'>
+                        <button class='btn_post one_quarter color_gn' type='submit'> Postar ! </button>
+                        <button type='button' class='btn_post color_rd one_quarter ' onclick='post_div();'>Cancelar</button>
+                    </div>
+                </div>
+            </form>
+        </div>    
+    </div>
+</div>  
+<script>
+
+    $(document).ready(function () {
+        "<%if(typeof post != 'undefined' || typeof post != [] || typeof post != ''){ %>"
+            "<% post.forEach(function(posts){ %>"
+                var cont = 0;
+                "<%if(typeof comment != 'undefined' || typeof comment != [] || typeof comment != ''){ %>"
+                    "<% comment.forEach(function(comments){ %>"
+                        if("<%=comments.post%>" == "<%=posts._id%>"){
+                            cont++;
+                            var div = "#<%=posts._id%>";
+                            var postdiv = "'"+"<%=posts._id%>"+"'";
+                            var content = "'"+"<%=posts.content%>"+"'";
+                            if(cont <= 6){
+                                $(div+" .comment_ul").append('<li class="comment_li"><div class="comment_tile"><p class="comment"><a href="#"" class="user"><%= comments.username %></a> <%= comments.content %></p></div></li>');
+                                if(cont > 5){
+                                    $(div).append('<button class="mostrar_mais" onclick="mais('+postdiv+','+content+');"> Mostrar mais... </button>');
+                                }
+                            }
+                        }
+                    "<% }); %>"
+                "<% }; %>"
+            "<% }); %>"
+        "<% }; %>"   
+    });
+
+    var d = new Date();
+    var month = d.getMonth()+1;
+    var day = d.getDate();
+    var output = new Date();
+    var output = d.getFullYear() + '-' + ((''+month).length<2 ? '0' : '') + month + '-' + ((''+day).length<2 ? '0' : '') + day;
+    $('.datamark').val(output);
+
+    function post_div(){
+        $('#painelPostagem').toggle("fade", 400);
+    }
+    $('#abre_div').click(function(){
+        post_div();
+    });
+    function mais(idpost,content){
+        $('#painelComent').toggle('fade', 300);
+        $('.poste_holder').text(content);
+        "<%if(typeof comment != 'undefined' || typeof comment != [] || typeof comment != ''){ %>"
+            "<% comment.forEach(function(comments){ %>"
+                if("<%=comments.post%>" == idpost){
+                    $(".comment_ul_holder").append('<li class="comment_li"><div class="comment_tile"><p class="comment"><a href="#"" class="user"><%= comments.username %></a> <%= comments.content %></p></div></li>');
+                }
+            "<% }); %>"
+        "<% }; %>"  
+    }
+    function fecharMais(){
+        $('#painelComent').toggle('fade', 300);
+        $(".comment_ul_holder").empty();
+    }
+
+    var data = new Date();
+    "<%if(typeof post != 'undefined' || typeof post != [] || typeof post != ''){ %>"
+        "<% post.forEach(function(posts){ %>"
+            var id ="<%=posts._id%>tt";
+            var d = new Date('<%=posts.date%>');
+            var day = d.getDate()+1;
+            var month = d.getMonth()+1;
+            var dia = ((''+day).length<2 ? '0' : '') + day + '/' + ((''+month).length<2 ? '0' : '') + month + '/' + d.getFullYear();
+            $('#'+id).text(dia);
+        "<% }); %>"
+    "<% }; %>"
+
+    
+</script>
